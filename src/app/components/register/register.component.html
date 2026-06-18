@@ -1,0 +1,69 @@
+<section class="register-page">
+  <aside class="hero-panel">
+    <span class="brand-tag">INAP</span>
+    <div class="hero-copy">
+      <p class="hero-label">INAP</p>
+      <h1>INSTITUTO NACIONAL DE ACELERAÇÃO PROFISSIONAL</h1>
+      <p class="hero-description">
+        Crie sua conta para acessar a área administrativa e a jornada de aprendizagem.
+      </p>
+    </div>
+  </aside>
+
+  <article class="form-panel">
+    <div class="card">
+      <div class="card-header">
+        <p class="eyebrow">Cadastro</p>
+        <h2>Registro de Usuário</h2>
+        <p class="intro">Preencha os campos abaixo para criar um novo usuário.</p>
+      </div>
+
+      <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field-group">
+          <label for="nome">Nome</label>
+          <input id="nome" formControlName="nome" type="text" placeholder="Seu nome completo" />
+        </div>
+
+        <div class="field-group">
+          <label for="email">Email</label>
+          <input id="email" formControlName="email" type="email" placeholder="email@exemplo.com" />
+        </div>
+
+        <div class="field-group">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            formControlName="username"
+            type="text"
+            placeholder="Usuário de login"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="senha">Senha</label>
+          <input
+            id="senha"
+            formControlName="senha"
+            type="password"
+            placeholder="Mínimo 6 caracteres"
+          />
+        </div>
+
+        <div class="field-group">
+          <label for="perfil">Perfil</label>
+          <select id="perfil" formControlName="perfil">
+            <option value="" disabled selected>Selecione um perfil...</option>
+
+            @for (perfil of perfis; track perfil) {
+              <option [value]="perfil">{{ perfil }}</option>
+            }
+          </select>
+        </div>
+
+        <button type="submit" class="submit-button" [disabled]="cadastroForm.invalid">
+          Criar conta
+        </button>
+      </form>
+    </div>
+  </article>
+</section>

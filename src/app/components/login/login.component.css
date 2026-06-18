@@ -1,0 +1,186 @@
+:host {
+  display: block;
+}
+
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 2rem;
+  background: radial-gradient(circle at top left, rgba(255, 122, 0, 0.18), transparent 35%),
+    #070707;
+  color: #ffffff;
+}
+
+.hero-panel,
+.form-panel {
+  width: min(100%, 520px);
+}
+
+.hero-panel {
+  flex: 1;
+  padding: 2rem;
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.25);
+}
+
+.brand-tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 84px;
+  border-radius: 22px;
+  background: #ff7a00;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: 0.18em;
+  margin-bottom: 1.75rem;
+}
+
+.hero-copy {
+  max-width: 420px;
+}
+
+.hero-label {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ff9a47;
+}
+
+.hero-panel h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.05;
+}
+
+.hero-description {
+  margin-top: 1.5rem;
+  color: #dcdcdc;
+  line-height: 1.8;
+}
+
+.card {
+  padding: 2rem;
+  border-radius: 30px;
+  background: #0f0f0f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+}
+
+.card-header {
+  margin-bottom: 1.75rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: #ff7a00;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.intro {
+  margin-top: 0.75rem;
+  color: #d8d8d8;
+  line-height: 1.7;
+}
+
+.field-group {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.field-group label {
+  font-weight: 600;
+  color: #f8f8f8;
+}
+
+.field-group input,
+.field-group select {
+  width: 100%;
+  min-height: 3.25rem;
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #111111;
+  color: #ffffff;
+  outline: none;
+  font: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field-group input:focus,
+.field-group select:focus {
+  border-color: #ff7a00;
+  box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.18);
+}
+
+.field-group small {
+  color: #ffb381;
+}
+
+.submit-button {
+  width: 100%;
+  padding: 1rem 1.15rem;
+  border: none;
+  border-radius: 20px;
+  background: #ff7a00;
+  color: #080808;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.submit-button:hover {
+  filter: brightness(1.05);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 940px) {
+  .register-page {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+
+  .hero-panel,
+  .form-panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .register-page {
+    gap: 1rem;
+  }
+
+  .brand-tag {
+    width: 68px;
+    height: 68px;
+  }
+
+  .card {
+    padding: 1.5rem;
+  }
+
+  .field-group input,
+  .field-group select {
+    min-height: 3rem;
+  }
+}
