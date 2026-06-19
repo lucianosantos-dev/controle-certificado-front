@@ -18,20 +18,35 @@
         <p class="intro">Use seu username e senha para ter acesso ao seu perfil.</p>
       </div>
 
-      <form action="#" method="post">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="field-group">
           <label for="username">Username</label>
-          <input id="username" name="username" type="text" placeholder="Seu usuário" />
+          <input id="username" formControlName="login" type="text" placeholder="Seu usuário" />
+
+          @if (loginForm.get('login')?.invalid && loginForm.get('login')?.touched) {
+            <span style="color: red; font-size: 0.8rem; display: block; margin-top: 5px">
+              O username é obrigatório.
+            </span>
+          }
         </div>
 
         <div class="field-group">
           <label for="senha">Senha</label>
-          <input id="senha" name="senha" type="password" placeholder="Mínimo 6 caracteres" />
+          <input
+            id="senha"
+            formControlName="senha"
+            type="password"
+            placeholder="Mínimo 6 caracteres"
+          />
+
+          @if (loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched) {
+            <span style="color: red; font-size: 0.8rem; display: block; margin-top: 5px">
+              A senha deve ter no mínimo 6 caracteres.
+            </span>
+          }
         </div>
 
-        <button type="submit" class="submit-button">
-          Entrar
-        </button>
+        <button type="submit" class="submit-button" [disabled]="loginForm.invalid">Entrar</button>
       </form>
     </div>
   </article>
