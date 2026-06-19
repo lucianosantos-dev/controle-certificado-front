@@ -3,6 +3,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { Painelusuario } from './components/painelusuario/painelusuario';
 import { Paineladmin } from './components/paineladmin/paineladmin';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -15,10 +16,12 @@ export const routes: Routes = [
   },
   {
     path: 'painel',
-    component: Painelusuario
+    component: Painelusuario,
+    canActivate: [authGuard]
   },
   {
     path: 'admin',
-    component: Paineladmin
+    component: Paineladmin,
+    canActivate: [authGuard]
   },
 ];

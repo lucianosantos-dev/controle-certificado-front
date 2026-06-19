@@ -1,0 +1,240 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    color: #0f172a;
+    font-family: Inter, system-ui, sans-serif;
+}
+
+.painel-aluno-shell {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.painel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+.brand-block {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #d97706;
+    color: white;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.brand-block strong {
+    color: #1e293b;
+    display: block;
+    font-size: 1rem;
+}
+
+.brand-block span {
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+.user-block {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-sair {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: transparent;
+    color: #475569;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-sair:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+
+.form-container {
+    display: grid;
+    place-items: center;
+    padding-bottom: 40px;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 700px;
+    padding: 40px;
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.form-card h1 {
+    margin: 0 0 8px;
+    font-size: 1.8rem;
+    color: #0f172a;
+}
+
+.subtitle {
+    color: #64748b;
+    margin-bottom: 32px;
+}
+
+.aluno-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 20px;
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.aluno-form label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.aluno-form label>span,
+.label-titulo {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #334155;
+}
+
+.aluno-form input[type="text"],
+.aluno-form input[type="date"],
+.aluno-form input[type="tel"] {
+    width: 100%;
+    padding: 14px 16px;
+    border-radius: 12px;
+    border: 1px solid #cbd5e1;
+    background: #f8fafc;
+    color: #0f172a;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.aluno-form input:focus {
+    outline: none;
+    border-color: #d97706;
+    box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+    background: #ffffff;
+}
+
+.escolha-formato {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.format-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.format-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    background: #ffffff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.format-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.card-icon {
+    font-size: 1.8rem;
+    background: #f1f5f9;
+    padding: 12px;
+    border-radius: 12px;
+    transition: background 0.2s;
+}
+
+.card-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-weight: 700;
+    color: #1e293b;
+    font-size: 1.05rem;
+}
+
+.card-desc {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.format-card:has(input:checked) {
+    border-color: #d97706;
+    background: #fffbeb;
+}
+
+.format-card:has(input:checked) .card-icon {
+    background: #fef3c7;
+}
+
+.btn-submit {
+    margin-top: 16px;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #d97706;
+    color: #ffffff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-submit:hover {
+    background: #b45309;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+}
+
+@media (max-width: 640px) {
+    .aluno-form {
+        grid-template-columns: 1fr;
+    }
+
+    .format-cards {
+        grid-template-columns: 1fr;
+    }
+}

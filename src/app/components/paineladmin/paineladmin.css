@@ -1,0 +1,258 @@
+:host {
+    display: block;
+    min-height: 100vh;
+    background-color: #f8fafc;
+    font-family: Inter, system-ui, sans-serif;
+    color: #0f172a;
+}
+
+.admin-shell {
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-navbar {
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-left,
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.brand-logo {
+    background-color: #d97706;
+    color: white;
+    font-weight: 800;
+    padding: 8px 12px;
+    border-radius: 8px;
+    letter-spacing: 1px;
+}
+
+.nav-divider {
+    width: 1px;
+    height: 24px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-title {
+    color: #cbd5e1;
+    font-weight: 500;
+}
+
+.user-role {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.btn-logout {
+    background: transparent;
+    color: #cbd5e1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.admin-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px;
+    width: 100%;
+}
+
+.page-header {
+    margin-bottom: 32px;
+}
+
+.page-header h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 8px 0;
+    color: #1e293b;
+}
+
+.page-header p {
+    color: #64748b;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.requests-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.request-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.request-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+.card-urgent {
+    border-color: #fecaca;
+}
+
+.card-urgent:hover {
+    border-color: #ef4444;
+}
+
+.card-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.avatar {
+    width: 52px;
+    height: 52px;
+    background-color: #f1f5f9;
+    color: #334155;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.avatar-danger {
+    background-color: #fef2f2;
+    color: #ef4444;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.user-name {
+    font-size: 1.1rem;
+    color: #1e293b;
+}
+
+.text-primary {
+    color: #d97706;
+}
+
+.user-details {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.tags-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+}
+
+.tag {
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.tag-warning {
+    background-color: #fffbeb;
+    color: #b45309;
+    border: 1px solid #fef08a;
+}
+
+.tag-danger {
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
+}
+
+.card-right {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.request-date {
+    font-size: 0.95rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.chevron {
+    font-size: 1.8rem;
+    color: #cbd5e1;
+    transition: color 0.2s;
+    padding-bottom: 4px;
+}
+
+.request-card:hover .chevron {
+    color: #d97706;
+}
+
+@media (max-width: 768px) {
+    .admin-navbar {
+        padding: 16px;
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .nav-divider {
+        display: none;
+    }
+
+    .request-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .card-left {
+        align-items: flex-start;
+    }
+
+    .avatar {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+    }
+
+    .card-right {
+        width: 100%;
+        justify-content: space-between;
+        padding-top: 16px;
+        border-top: 1px solid #f1f5f9;
+    }
+}
