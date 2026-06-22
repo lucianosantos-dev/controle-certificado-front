@@ -1,81 +1,128 @@
-<div class="admin-shell">
-  <nav class="admin-navbar">
-    <div class="nav-left">
-      <div class="brand-logo">INAP</div>
-      <span class="nav-divider"></span>
-      <span class="nav-title">Painel Administrativo</span>
+<section class="admin-shell">
+  <header class="painel-header">
+    <div class="brand-block">
+      <div class="brand-icon">INAP</div>
+      <div>
+        <strong>Painel Administrativo</strong>
+        <span>Gestão de Certificados</span>
+      </div>
     </div>
-    <div class="nav-right">
-      <span class="user-role">Administrador</span>
-      <button class="btn-logout" type="button">Sair 🚪</button>
+    <button class="btn-sair" (click)="logout()">Sair</button>
+  </header>
+
+  <main class="content-container">
+    <div class="page-header">
+      <h1>Solicitações Recebidas</h1>
     </div>
-  </nav>
 
-  <main class="admin-content">
-    <header class="page-header">
-      <h1>Solicitações de Certificado</h1>
-      <p>3 solicitações pendentes</p>
-    </header>
+    <div class="filtro-container">
+      <div class="filtro-grupo">
+        <label for="buscaNome">Buscar por Aluno</label>
+        <input id="buscaNome" type="text" [(ngModel)]="filtroNome" placeholder="Ex: Luciano" />
+      </div>
 
-    <div class="requests-list">
-      <article class="request-card">
-        <div class="card-left">
-          <div class="avatar">AC</div>
-          <div class="user-info">
-            <strong class="user-name">Ana Clara Ferreira</strong>
-            <span class="user-details">Técnico em Administração • 123.456.789-00</span>
+      <div class="filtro-grupo">
+        <label for="buscaCpf">Buscar por CPF</label>
+        <input id="buscaCpf" type="text" [(ngModel)]="filtroCpf" placeholder="Apenas números" />
+      </div>
 
-            <div class="tags-group">
-              <span class="tag tag-warning">⏱ Pendente</span>
-              <span class="tag tag-warning">⏳ 6d restantes</span>
-            </div>
-          </div>
-        </div>
+      <div class="filtro-botoes">
+        <button class="btn-buscar" (click)="pesquisar()">Buscar</button>
+        <button class="btn-limpar" (click)="limparFiltro()">Limpar</button>
+      </div>
+    </div>
 
-        <div class="card-right">
-          <span class="request-date">25/05/2026</span>
-          <span class="chevron">›</span>
-        </div>
-      </article>
+    <div class="table-container">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Aluno</th>
+            <th>Curso</th>
+            <th>Solicitado em</th>
+            <th>Data Limite</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (solicitacao of solicitacoes(); track $index) {
+            <tr class="linha-clicavel" (click)="abrirDetalhes(solicitacao)">
+              <td>
+                <strong>{{ solicitacao.nomeAluno }}</strong>
+              </td>
+              <td>{{ solicitacao.curso }}</td>
+              <td>{{ solicitacao.dataSolicitacao | date: 'dd/MM/yyyy' }}</td>
+              <td style="color: #d97706; font-weight: bold">
+                {{ solicitacao.dataLimiteEntrega | date: 'dd/MM/yyyy' }}
+              </td>
+              <td>
+                <span class="status-badge">{{ solicitacao.statusSolicitacao }}</span>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" style="text-align: center; padding: 20px">
+                Nenhuma solicitação no momento.
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
 
-      <article class="request-card card-urgent">
-        <div class="card-left">
-          <div class="avatar avatar-danger">BH</div>
-          <div class="user-info">
-            <strong class="user-name text-primary">Bruno Henrique Costa</strong>
-            <span class="user-details">Técnico em Informática • 987.654.321-11</span>
+    <div class="paginacao-container">
+      <button (click)="paginaAnterior()" [disabled]="paginaAtual() === 0">&laquo; Anterior</button>
 
-            <div class="tags-group">
-              <span class="tag tag-warning">⏱ Pendente</span>
-              <span class="tag tag-danger">⚠ 0d — Urgente</span>
-            </div>
-          </div>
-        </div>
+      <span>Página {{ paginaAtual() + 1 }} de {{ totalPaginas() }}</span>
 
-        <div class="card-right">
-          <span class="request-date">18/05/2026</span>
-          <span class="chevron">›</span>
-        </div>
-      </article>
-
-      <article class="request-card">
-        <div class="card-left">
-          <div class="avatar">CM</div>
-          <div class="user-info">
-            <strong class="user-name">Carla Mendes Souza</strong>
-            <span class="user-details">Técnico em Enfermagem • 456.123.789-22</span>
-
-            <div class="tags-group">
-              <span class="tag tag-warning">⏱ Pendente</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card-right">
-          <span class="request-date">15/05/2026</span>
-          <span class="chevron">›</span>
-        </div>
-      </article>
+      <button (click)="proximaPagina()" [disabled]="paginaAtual() >= totalPaginas() - 1">
+        Próxima &raquo;
+      </button>
     </div>
   </main>
-</div>
+
+  @if (modalAberto()) {
+    <div class="modal-overlay" (click)="fecharModal()">
+      <div class="modal-box" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Detalhes da Solicitação</h2>
+          <button class="btn-fechar" (click)="fecharModal()">&times;</button>
+        </div>
+
+        <div class="modal-body">
+          <div class="info-grupo">
+            <span>Aluno:</span>
+            <strong>{{ solicitacaoSelecionada().nomeAluno }}</strong>
+          </div>
+          <div class="info-grupo">
+            <span>CPF:</span>
+            <strong>{{ solicitacaoSelecionada().cpf }}</strong>
+          </div>
+          <div class="info-grupo">
+            <span>Curso:</span>
+            <strong>{{ solicitacaoSelecionada().curso }}</strong>
+          </div>
+          <div class="info-grupo">
+            <span>Data da Solicitação:</span>
+            <strong>{{ solicitacaoSelecionada().dataSolicitacao | date: 'dd/MM/yyyy' }}</strong>
+          </div>
+
+          <hr class="divisor" />
+
+          <div class="form-grupo">
+            <label for="statusSelect">Alterar Status do Certificado:</label>
+            <select id="statusSelect" [(ngModel)]="statusSelecionado" class="select-status">
+              <option value="PENDENTE">Pendente</option>
+              <option value="CONCLUIDO">Concluído</option>
+              <option value="ENTREGUE">Entregue</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn-cancelar" (click)="fecharModal()">Cancelar</button>
+          <button class="btn-salvar" (click)="salvarNovoStatus()">Salvar Alteração</button>
+        </div>
+      </div>
+    </div>
+  }
+</section>
