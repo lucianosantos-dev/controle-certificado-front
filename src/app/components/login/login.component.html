@@ -36,17 +36,38 @@
             id="senha"
             formControlName="senha"
             type="password"
-            placeholder="Mínimo 6 caracteres"
+            placeholder="Mínimo 5 caracteres"
           />
 
           @if (loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched) {
             <span style="color: red; font-size: 0.8rem; display: block; margin-top: 5px">
-              A senha deve ter no mínimo 6 caracteres.
+              A senha deve ter no mínimo 5 caracteres.
             </span>
           }
         </div>
 
         <button type="submit" class="submit-button" [disabled]="loginForm.invalid">Entrar</button>
+
+        <div class="register-prompt" style="margin-top: 1.5rem; text-align: center">
+          <span style="font-size: 0.9rem; color: #555">Ainda não tem conta?</span>
+          <button
+            type="button"
+            (click)="irParaCadastro()"
+            style="
+              background: transparent;
+              border: none;
+              color: #d97706;
+              font-weight: bold;
+              cursor: pointer;
+              margin-left: 5px;
+              text-decoration: underline;
+              font-size: 0.9rem;
+              padding: 0;
+            "
+          >
+            Cadastre-se
+          </button>
+        </div>
       </form>
     </div>
   </article>

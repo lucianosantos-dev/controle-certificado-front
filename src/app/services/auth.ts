@@ -28,8 +28,9 @@ export class AuthService {
         const payloadJson = JSON.parse(payloadDecodificado);
 
         localStorage.setItem('perfil', payloadJson.perfil);
+        localStorage.setItem('meuUsuario', payloadJson.nome);
       })
-    )
+    );
   }
 }
 

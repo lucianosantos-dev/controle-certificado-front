@@ -1,0 +1,51 @@
+<section class="painel-aluno-shell">
+  <header class="painel-header">
+    <div class="brand-block">
+      <div class="brand-icon">INAP</div>
+      <div>
+        <strong>Instituto Nacional</strong>
+        <span>Área do Aluno</span>
+      </div>
+    </div>
+
+    <div class="user-block">
+      <div>
+        Olá, <strong>{{ nomeUsuario }}</strong>
+      </div>
+      <button class="btn-sair" (click)="logout()" type="button">Sair</button>
+    </div>
+  </header>
+
+  <main class="content-container">
+    <div class="page-header">
+      <div>
+        <h1>Minhas Solicitações</h1>
+        <p class="subtitle">Acompanhe o status dos seus certificados.</p>
+      </div>
+      <button class="btn-novo" (click)="novaSolicitacao()">+ Nova Solicitação</button>
+    </div>
+
+    <div class="cards-list">
+      @for (solicitacao of minhasSolicitacoes; track $index) {
+        <article class="request-card">
+          <div class="card-left">
+            <div class="avatar-icon">🖨️</div>
+
+            <div class="info-block">
+              <strong class="course-name">{{ solicitacao.curso }}</strong>
+              <span class="cert-type">Aluno: {{ solicitacao.nomeAluno }}</span>
+
+              <div class="status-badge status-pendente">⏱ {{ solicitacao.statusSolicitacao }}</div>
+            </div>
+          </div>
+
+          <div class="card-right">
+            <span class="request-date">
+              Solicitado em {{ solicitacao.dataSolicitacao | date: 'dd/MM/yyyy' }}
+            </span>
+          </div>
+        </article>
+      }
+    </div>
+  </main>
+</section>

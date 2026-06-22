@@ -4,10 +4,16 @@ import { RegisterComponent } from './components/register/register.component';
 import { Painelusuario } from './components/painelusuario/painelusuario';
 import { Paineladmin } from './components/paineladmin/paineladmin';
 import { authGuard } from './guards/auth.guard';
+import { Minhassolicitacoes } from './components/minhassolicitacoes/minhassolicitacoes';
 
 export const routes: Routes = [
+
   {
-    path: '',
+    path: '', redirectTo: '/login', pathMatch: 'full'
+  },
+
+  {
+    path: 'register',
     component: RegisterComponent
   },
   {
@@ -24,4 +30,9 @@ export const routes: Routes = [
     component: Paineladmin,
     canActivate: [authGuard]
   },
+  {
+    path: 'minhas-solicitacoes',
+    component: Minhassolicitacoes,
+    canActivate: [authGuard]
+  }
 ];

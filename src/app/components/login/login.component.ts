@@ -2,7 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
-
+import { Solicitacao } from '../../services/solicitacao';
+import Swal from 'sweetalert2'; 
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -14,7 +15,7 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private service = inject(AuthService);
   private router = inject(Router);
-
+  private solicitacaoService = inject(Solicitacao);
 
   loginForm: FormGroup = this.fb.group({
     login: ['', Validators.required],
@@ -29,21 +30,42 @@ export class LoginComponent {
         const perfilUsuario = localStorage.getItem('perfil');
 
         if (perfilUsuario === 'ALUNO') {
-          this.router.navigate(['/painel']);
-
+          this.solicitacaoService.getSolicitacoes().subscribe({
+            next: (res) => {
+              if (res && res.length > 0) {
+                this.router.navigate(['/minhas-solicitacoes']);
+              } else {
+                this.router.navigate(['/painel']);
+              }
+            },
+            error: () => {
+              this.router.navigate(['/painel']);
+            }
+          });
         } else if (perfilUsuario === 'SECRETARIA' || perfilUsuario === 'PEDAGOGICO') {
           this.router.navigate(['/admin']);
-
         } else {
-          console.error('Perfil desconhecido:', perfilUsuario);
-          alert('Erro de permissão. Contate o suporte.');
+          Swal.fire({
+            title: 'Ops!',
+            text: 'Erro de permissão. Contate o suporte.',
+            icon: 'warning',
+            confirmButtonColor: '#d33'
+          });
         }
-
       },
       error: (err) => {
         console.error("Erro ao fazer login ", err);
+        Swal.fire({
+          title: 'Acesso Negado!',
+          text: 'Usuário ou senha incorretos. Tente novamente.',
+          icon: 'error',
+          confirmButtonColor: '#d33'
+        });
       }
     })
   }
 
+  irParaCadastro() {
+    this.router.navigate(['/register']);
+  }
 }

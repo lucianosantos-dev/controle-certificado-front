@@ -9,7 +9,9 @@
     </div>
 
     <div class="user-block">
-      <div>Olá, <strong>Aluno Exemplo</strong></div>
+      <div>
+        Olá, <strong>{{ nomeUsuario }}</strong>
+      </div>
       <button class="btn-sair" (click)="logout()" type="button">Sair</button>
     </div>
   </header>
@@ -19,30 +21,38 @@
       <h1>Solicitar Certificado</h1>
       <p class="subtitle">Preencha os dados abaixo para enviar sua solicitação.</p>
 
-      <form class="aluno-form">
+      <form class="aluno-form" [formGroup]="solicitacoesForms" (ngSubmit)="onSubmit()">
         <label class="full-width">
           <span>Nome completo</span>
-          <input type="text" placeholder="Ex: Luciano Santos de Jesus Reis" />
+          <input
+            type="text"
+            placeholder="Ex: Luciano Santos de Jesus Reis"
+            formControlName="nomeAluno"
+          />
         </label>
 
         <label class="full-width">
           <span>Curso</span>
-          <input type="text" placeholder="Ex: Administração, Informática..." />
+          <input
+            type="text"
+            placeholder="Ex: Administração, Informática..."
+            formControlName="curso"
+          />
         </label>
 
         <label>
           <span>Data de conclusão</span>
-          <input type="date" />
+          <input type="date" formControlName="dataConclusao" />
         </label>
 
         <label>
           <span>Telefone</span>
-          <input type="tel" placeholder="(00) 00000-0000" />
+          <input type="tel" placeholder="(00) 00000-0000" maxlength="11" (input)="somenteNumeros($event, 'telefone')" formControlName="telefone" />
         </label>
 
         <label class="full-width">
           <span>CPF</span>
-          <input type="text" placeholder="000.000.000-00" maxlength="14" />
+          <input type="text" placeholder="000.000.000-00" maxlength="11" (input)="somenteNumeros($event, 'cpf')" formControlName="cpf" />
         </label>
 
         <div class="escolha-formato full-width">
@@ -50,7 +60,7 @@
 
           <div class="format-cards">
             <label class="format-card">
-              <input type="radio" name="certificado" value="impresso" checked />
+              <input type="radio" formControlName="tipoCertificado" value="IMPRESSO" checked />
               <div class="card-icon">🖨️</div>
               <div class="card-text">
                 <span class="card-title">Impresso</span>
@@ -59,7 +69,7 @@
             </label>
 
             <label class="format-card">
-              <input type="radio" name="certificado" value="digital" />
+              <input type="radio" formControlName="tipoCertificado" value="DIGITAL" />
               <div class="card-icon">💻</div>
               <div class="card-text">
                 <span class="card-title">Digital</span>
@@ -69,7 +79,9 @@
           </div>
         </div>
 
-        <button class="btn-submit full-width" type="submit">Enviar solicitação</button>
+        <button class="btn-submit full-width" type="submit" [disabled]="solicitacoesForms.invalid">
+          Enviar solicitação
+        </button>
       </form>
     </div>
   </main>
