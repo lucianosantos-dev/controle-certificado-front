@@ -11,7 +11,7 @@ export class AuthService {
   private http = inject(HttpClient);
 
   private API = `${environment.apiUrl}/usuarios`
-  private API_LOGIN = `${environment.apiUrl}/login`;
+  private API_LOGIN = `${environment.apiUrl}/auth/login`;
 
   public cadastrarUsuario(dadosUsuario: any): Observable<any> {
     return this.http.post(this.API, dadosUsuario);

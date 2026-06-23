@@ -16,7 +16,7 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-
+  
   perfis = Object.values(PerfilUsuario);
 
   cadastroForm: FormGroup = this.fb.group({
