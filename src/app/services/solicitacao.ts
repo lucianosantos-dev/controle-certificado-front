@@ -1,13 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Solicitacao {
   private http = inject(HttpClient);
-  private API = "http://localhost:8080/solicitacoes";
+
+  private API = `${environment.apiUrl}/solicitacoes`;
 
   public enviarSolicitacao(dadosSolicitacao: any): Observable<any> {
     return this.http.post(this.API, dadosSolicitacao);
@@ -18,7 +20,6 @@ export class Solicitacao {
   }
 
   public getAll(pagina: number, tamanho: number, nome: string = '', cpf: string = ''): Observable<any> {
-
     let parametros = new HttpParams()
       .set('page', pagina.toString())
       .set('size', tamanho.toString())
@@ -33,5 +34,4 @@ export class Solicitacao {
   public atualizarStatus(id: number, novoStatus: string): Observable<any> {
     return this.http.patch<any>(`${this.API}/${id}/status`, { status: novoStatus });
   }
-
 }
