@@ -4,10 +4,11 @@ import Swal from 'sweetalert2';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgxMaskDirective } from "ngx-mask";
 
 @Component({
   selector: 'app-paineladmin',
-  imports: [DatePipe, FormsModule],
+  imports: [DatePipe, FormsModule, NgxMaskDirective],
   templateUrl: './paineladmin.html',
   styleUrl: './paineladmin.css',
 })

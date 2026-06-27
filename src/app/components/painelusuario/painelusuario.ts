@@ -4,10 +4,11 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from "@angula
 import { Solicitacao } from '../../services/solicitacao';
 import { TipoCertificado } from '../../model/TipoCertificado';
 import Swal from 'sweetalert2';
+import { NgxMaskDirective } from 'ngx-mask';
 
 @Component({
   selector: 'app-painelusuario',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, NgxMaskDirective],
   templateUrl: './painelusuario.html',
   styleUrl: './painelusuario.css',
 })
@@ -23,8 +24,8 @@ export class Painelusuario implements OnInit {
     nomeAluno: [{ value: '', disabled: true }, Validators.required],
     curso: ['', Validators.required],
     dataConclusao: ['', Validators.required],
-    telefone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(11), Validators.pattern('^[0-9]*$')]],
-    cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11), Validators.pattern('^[0-9]*$')]],
+    telefone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15), Validators.pattern('^[0-9]*$')]],
+    cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(14), Validators.pattern('^[0-9]*$')]],
     tipoCertificado: ['IMPRESSO', Validators.required]
   });
 

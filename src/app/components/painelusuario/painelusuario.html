@@ -47,12 +47,23 @@
 
         <label>
           <span>Telefone</span>
-          <input type="tel" placeholder="(00) 00000-0000" maxlength="11" (input)="somenteNumeros($event, 'telefone')" formControlName="telefone" />
+          <input type="tel" placeholder="(11) 99999-9999"
+           maxlength="15" 
+           (input)="somenteNumeros($event, 'telefone')" 
+           formControlName="telefone"
+           mask="(00) 00000-0000"
+            />
         </label>
 
         <label class="full-width">
           <span>CPF</span>
-          <input type="text" placeholder="000.000.000-00" maxlength="11" (input)="somenteNumeros($event, 'cpf')" formControlName="cpf" />
+          <input type="text" 
+          placeholder="000.000.000-00"
+           maxlength="14"
+            (input)="somenteNumeros($event, 'cpf')" 
+            formControlName="cpf"
+            mask="000.000.000-00"
+             />
         </label>
 
         <div class="escolha-formato full-width">

@@ -18,12 +18,17 @@
     <div class="filtro-container">
       <div class="filtro-grupo">
         <label for="buscaNome">Buscar por Aluno</label>
-        <input id="buscaNome" type="text" [(ngModel)]="filtroNome" placeholder="Ex: Luciano" />
+        <input id="buscaNome" type="text" [(ngModel)]="filtroNome" placeholder="Ex: Pedro Silva" />
       </div>
 
       <div class="filtro-grupo">
         <label for="buscaCpf">Buscar por CPF</label>
-        <input id="buscaCpf" type="text" [(ngModel)]="filtroCpf" placeholder="Apenas números" />
+        <input id="buscaCpf"
+         type="text" 
+         [(ngModel)]="filtroCpf" 
+         placeholder="Ex: 000.000.000-00"
+         mask="000.000.000-00"
+          />
       </div>
 
       <div class="filtro-botoes">
@@ -41,6 +46,7 @@
             <th>Solicitado em</th>
             <th>Data Limite</th>
             <th>Status</th>
+            <th>Tipo Certificado</th>
           </tr>
         </thead>
         <tbody>
@@ -57,10 +63,15 @@
               <td>
                 <span class="status-badge">{{ solicitacao.statusSolicitacao }}</span>
               </td>
+              <td>
+                <p>
+                  <strong>{{ solicitacao.tipoCertificado }}</strong>
+                </p>
+              </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="5" style="text-align: center; padding: 20px">
+              <td colspan="6" style="text-align: center; padding: 20px">
                 Nenhuma solicitação no momento.
               </td>
             </tr>
@@ -101,6 +112,12 @@
             <span>Curso:</span>
             <strong>{{ solicitacaoSelecionada().curso }}</strong>
           </div>
+
+          <div class="info-grupo">
+            <span>Tipo de Certificado:</span>
+            <strong>{{ solicitacaoSelecionada().tipoCertificado }}</strong>
+          </div>
+
           <div class="info-grupo">
             <span>Data da Solicitação:</span>
             <strong>{{ solicitacaoSelecionada().dataSolicitacao | date: 'dd/MM/yyyy' }}</strong>

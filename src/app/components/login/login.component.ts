@@ -19,7 +19,7 @@ export class LoginComponent {
 
   loginForm: FormGroup = this.fb.group({
     login: ['', Validators.required],
-    senha: ['', [Validators.required, Validators.minLength(5)]]
+    senha: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   onSubmit() {

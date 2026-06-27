@@ -36,12 +36,12 @@
             id="senha"
             formControlName="senha"
             type="password"
-            placeholder="Mínimo 5 caracteres"
+            placeholder="Mínimo 6 caracteres"
           />
 
           @if (loginForm.get('senha')?.invalid && loginForm.get('senha')?.touched) {
             <span style="color: red; font-size: 0.8rem; display: block; margin-top: 5px">
-              A senha deve ter no mínimo 5 caracteres.
+              A senha deve ter no mínimo 6 caracteres.
             </span>
           }
         </div>
