@@ -24,7 +24,6 @@ export class RegisterComponent {
     email: ['', [Validators.required, Validators.email]],
     username: ['', [Validators.required, Validators.minLength(3)]],
     senha: ['', [Validators.required, Validators.minLength(6)]],
-    perfil: ['', [Validators.required]]
   })
 
   onSubmit() {

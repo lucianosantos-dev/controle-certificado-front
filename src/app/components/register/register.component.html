@@ -21,12 +21,48 @@
       <form [formGroup]="cadastroForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="field-group">
           <label for="nome">Nome</label>
-          <input id="nome" formControlName="nome" type="text" placeholder="Seu nome completo" />
+          <input
+            id="nome"
+            formControlName="nome"
+            type="text"
+            placeholder="Seu nome completo"
+            [class.input-erro]="
+              cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched
+            "
+          />
+          @if (cadastroForm.get('nome')?.invalid && cadastroForm.get('nome')?.touched) {
+            <div class="mensagem-erro">
+              @if (cadastroForm.get('nome')?.errors?.['required']) {
+                <span>O nome é obrigatório.</span>
+              }
+              @if (cadastroForm.get('nome')?.errors?.['minlength']) {
+                <span>O nome está muito curto.</span>
+              }
+            </div>
+          }
         </div>
 
         <div class="field-group">
           <label for="email">Email</label>
-          <input id="email" formControlName="email" type="email" placeholder="email@exemplo.com" />
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            placeholder="email@exemplo.com"
+            [class.input-erro]="
+              cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched
+            "
+          />
+          @if (cadastroForm.get('email')?.invalid && cadastroForm.get('email')?.touched) {
+            <div class="mensagem-erro">
+              @if (cadastroForm.get('email')?.errors?.['required']) {
+                <span>O e-mail é obrigatório.</span>
+              }
+              @if (cadastroForm.get('email')?.errors?.['email']) {
+                <span>Digite um formato de e-mail válido.</span>
+              }
+            </div>
+          }
         </div>
 
         <div class="field-group">
@@ -36,7 +72,17 @@
             formControlName="username"
             type="text"
             placeholder="Usuário de login"
+            [class.input-erro]="
+              cadastroForm.get('username')?.invalid && cadastroForm.get('username')?.touched
+            "
           />
+          @if (cadastroForm.get('username')?.invalid && cadastroForm.get('username')?.touched) {
+            <div class="mensagem-erro">
+              @if (cadastroForm.get('username')?.errors?.['required']) {
+                <span>O username é obrigatório.</span>
+              }
+            </div>
+          }
         </div>
 
         <div class="field-group">
@@ -46,18 +92,20 @@
             formControlName="senha"
             type="password"
             placeholder="Mínimo 6 caracteres"
+            [class.input-erro]="
+              cadastroForm.get('senha')?.invalid && cadastroForm.get('senha')?.touched
+            "
           />
-        </div>
-
-        <div class="field-group">
-          <label for="perfil">Perfil</label>
-          <select id="perfil" formControlName="perfil">
-            <option value="" disabled selected>Selecione um perfil...</option>
-
-            @for (perfil of perfis; track perfil) {
-              <option [value]="perfil">{{ perfil }}</option>
-            }
-          </select>
+          @if (cadastroForm.get('senha')?.invalid && cadastroForm.get('senha')?.touched) {
+            <div class="mensagem-erro">
+              @if (cadastroForm.get('senha')?.errors?.['required']) {
+                <span>A senha é obrigatória.</span>
+              }
+              @if (cadastroForm.get('senha')?.errors?.['minlength']) {
+                <span>A senha deve ter no mínimo 6 caracteres.</span>
+              }
+            </div>
+          }
         </div>
 
         <button type="submit" class="submit-button" [disabled]="cadastroForm.invalid">
