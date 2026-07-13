@@ -1,59 +1,65 @@
-# ControleCertificadoFront
+# 🎓 Controle de Certificados - Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.3.
+![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%23712CF9.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 
-## Development server
+Este é o projeto frontend do sistema de gerenciamento de solicitações de certificados, desenvolvido com **Angular**. O sistema permite que alunos solicitem certificados e administradores façam a gestão dessas solicitações, incluindo validações de formulário e autenticação segura.
 
-To start a local development server, run:
+👉 **[Acesse o repositório do Backend clicando aqui](https://github.com/lucianosantos-dev/controle-certificado)**
 
+## 🚀 Tecnologias Utilizadas
+
+* **Framework**: [Angular 21](https://angular.dev/)
+* **Estilização**: [Bootstrap](https://getbootstrap.com/)
+* **Comunicação**: HTTP Client (consumo de API REST Java/Spring Boot)
+* **Gerenciamento de Estado**: Signals e Formulários Reativos
+* **Segurança**: Autenticação via JWT (interceptor de rotas)
+
+## 📋 Funcionalidades Principais
+
+* **Autenticação**: Login seguro para alunos e administradores
+* **Gestão de Solicitações**: Interface para visualização de certificados solicitados
+* **Cadastro**: Formulários reativos com validações de campos (CPF, Telefone, limites de senha)
+* **Experiência do Usuário**: Interface responsiva e feedback visual em tempo real
+
+## 🛠️ Como rodar o projeto
+
+Certifique-se de ter o [Node.js](https://nodejs.org/) instalado na sua máquina.
+
+**1. Clone o repositório:**
+```bash
+git clone https://github.com/lucianosantos-dev/controle-certificado-front.git
+cd controle-certificado-front
+```
+
+**2. Instale as dependências:**
+```bash
+npm install
+```
+
+**3. Configure a URL da API**
+
+O arquivo `src/environments/environment.ts` já vem apontando por padrão para a API em produção (Render). Para rodar contra o **backend local**, comente a linha do Render e descomente a linha do `localhost`:
+```ts
+export const environment = {
+  // apiUrl: 'https://sua-url-no-render.onrender.com', // produção
+  apiUrl: 'http://localhost:8080' // desenvolvimento local
+};
+```
+> ⚠️ A API em produção está hospedada em uma camada gratuita (Render). Evite apontar para ela em testes locais — prefira sempre rodar o [backend](https://github.com/lucianosantos-dev/controle-certificado) na sua própria máquina.
+
+**4. Rode a aplicação:**
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+**5. Pronto!** Acesse em:
+```
+http://localhost:4200/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+> Projeto complementar ao backend: [controle-certificado](https://github.com/lucianosantos-dev/controle-certificado)
