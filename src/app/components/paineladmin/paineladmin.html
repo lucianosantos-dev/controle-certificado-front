@@ -17,18 +17,46 @@
 
     <div class="filtro-container">
       <div class="filtro-grupo">
+        <label for="buscaStatus">Status</label>
+
+        <select
+          id="buscaStatus"
+          name="buscaStatus"
+          [(ngModel)]="filtroStatus"
+          (change)="pesquisar()"
+          style="
+            padding: 8px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            height: 42px;
+            min-width: 160px;
+            background-color: white;
+            color: #334155;
+            font-size: 0.95rem;
+            cursor: pointer;
+          "
+        >
+          <option value="TODOS">Todos</option>
+          <option value="PENDENTE">Pendente</option>
+          <option value="CONCLUIDO">Concluído</option>
+          <option value="ENTREGUE">Entregue</option>
+        </select>
+      </div>
+
+      <div class="filtro-grupo">
         <label for="buscaNome">Buscar por Aluno</label>
         <input id="buscaNome" type="text" [(ngModel)]="filtroNome" placeholder="Ex: Pedro Silva" />
       </div>
 
       <div class="filtro-grupo">
         <label for="buscaCpf">Buscar por CPF</label>
-        <input id="buscaCpf"
-         type="text" 
-         [(ngModel)]="filtroCpf" 
-         placeholder="Ex: 000.000.000-00"
-         mask="000.000.000-00"
-          />
+        <input
+          id="buscaCpf"
+          type="text"
+          [(ngModel)]="filtroCpf"
+          placeholder="Ex: 000.000.000-00"
+          mask="000.000.000-00"
+        />
       </div>
 
       <div class="filtro-botoes">
@@ -45,6 +73,7 @@
             <th>Curso</th>
             <th>Solicitado em</th>
             <th>Data Limite</th>
+            <th>Telefone</th>
             <th>Status</th>
             <th>Tipo Certificado</th>
           </tr>
@@ -59,6 +88,9 @@
               <td>{{ solicitacao.dataSolicitacao | date: 'dd/MM/yyyy' }}</td>
               <td style="color: #d97706; font-weight: bold">
                 {{ solicitacao.dataLimiteEntrega | date: 'dd/MM/yyyy' }}
+              </td>
+              <td>
+                {{ solicitacao.telefone }}
               </td>
               <td>
                 <span class="status-badge">{{ solicitacao.statusSolicitacao }}</span>
@@ -133,6 +165,16 @@
               <option value="ENTREGUE">Entregue</option>
             </select>
           </div>
+
+          <!-- <div class="filtro-grupo">
+            <label for="buscaStatus">Filtrar por Status</label>
+            <select id="buscaStatus" [(ngModel)]="filtroStatus" class="select-filtro">
+              <option value="">Todos</option>
+              <option value="PENDENTE">Pendente</option>
+              <option value="CONCLUIDO">Concluído</option>
+              <option value="ENTREGUE">Entregue</option>
+            </select>
+          </div> -->
         </div>
 
         <div class="modal-footer">

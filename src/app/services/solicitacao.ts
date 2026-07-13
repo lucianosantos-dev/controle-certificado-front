@@ -19,7 +19,7 @@ export class Solicitacao {
     return this.http.get(`${this.API}/minhas`);
   }
 
-  public getAll(pagina: number, tamanho: number, nome: string = '', cpf: string = ''): Observable<any> {
+  public getAll(pagina: number, tamanho: number, nome: string = '', cpf: string = '', status:string = 'TODOS'): Observable<any> {
     let parametros = new HttpParams()
       .set('page', pagina.toString())
       .set('size', tamanho.toString())
@@ -27,6 +27,10 @@ export class Solicitacao {
 
     if (cpf && cpf.trim() !== '') {
       parametros = parametros.set('cpf', cpf);
+    }
+
+    if(status && status !== 'TODOS'){
+      parametros = parametros.set('status', status);
     }
     return this.http.get<any>(this.API, { params: parametros });
   }

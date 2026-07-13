@@ -17,8 +17,9 @@ export class Paineladmin implements OnInit {
   private router = inject(Router);
 
   filtroNome: string = '';
+  filtroStatus: string = 'TODOS';
   filtroCpf: string = '';
-  tamanhoPagina: number = 10;
+  tamanhoPagina: number = 5;
   statusSelecionado: string = '';
 
 
@@ -31,16 +32,17 @@ export class Paineladmin implements OnInit {
 
 
   ngOnInit(): void {
+    this.filtroStatus = 'TODOS';
     this.carregarPaginas(0);
   }
 
   carregarPaginas(pagina: number) {
-    this.service.getAll(pagina, this.tamanhoPagina, this.filtroNome, this.filtroCpf)
+    this.service.getAll(pagina, this.tamanhoPagina, this.filtroNome, this.filtroCpf, this.filtroStatus)
       .subscribe({
         next: (res) => {
           this.solicitacoes.set(res.content);
           this.paginaAtual.set(res.number)
-          this.totalPaginas.set(res.totalPaginas);
+          this.totalPaginas.set(res.totalPages);
         },
         error: (err) => {
           console.error("Erro ao carregar paginaçcão", err);
@@ -56,6 +58,7 @@ export class Paineladmin implements OnInit {
   limparFiltro() {
     this.filtroNome = '';
     this.filtroCpf = '';
+    this.filtroStatus = 'TODOS';
     this.carregarPaginas(0);
   }
 
@@ -73,7 +76,7 @@ export class Paineladmin implements OnInit {
 
   abrirDetalhes(solicitacao: any) {
     this.solicitacaoSelecionada.set(solicitacao);
-    this.statusSelecionado = solicitacao.statusSelecionado;
+    this.statusSelecionado = solicitacao.statusSolicitacao;
     this.modalAberto.set(true);
   }
 
@@ -86,7 +89,7 @@ export class Paineladmin implements OnInit {
     const id = this.solicitacaoSelecionada().id;
 
     this.service.atualizarStatus(id, this.statusSelecionado).subscribe({
-      next: (res) => {
+      next: () => {
         Swal.fire('Sucesso!', 'O status foi atualizado', 'success');
         this.fecharModal();
         this.carregarPaginas(this.paginaAtual());
