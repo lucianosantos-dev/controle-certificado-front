@@ -106,4 +106,8 @@ export class Paineladmin implements OnInit {
     this.router.navigate(['/login']);
   }
 
+  novaSolicitacao(){
+    this.router.navigate(['/painel']);
+  }
+
 }

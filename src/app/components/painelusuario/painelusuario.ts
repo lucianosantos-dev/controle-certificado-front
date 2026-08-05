@@ -17,6 +17,7 @@ export class Painelusuario implements OnInit {
   private fb = inject(FormBuilder);
   private service = inject(Solicitacao);
 
+  isAdmin: boolean = false;
   nomeUsuario: string = '';
   tipoCertificado = Object.values(TipoCertificado);
 
@@ -38,7 +39,16 @@ export class Painelusuario implements OnInit {
   ngOnInit(): void {
     const nomeSalvo = localStorage.getItem('meuUsuario');
 
-    if (nomeSalvo) {
+    this.isAdmin = localStorage.getItem('perfil') === 'PEDAGOGICO';
+
+    if(nomeSalvo){
+      this.nomeUsuario = nomeSalvo;
+    }
+
+    if (this.isAdmin) {
+      this.solicitacoesForms.get('nomeAluno')?.enable();
+    }
+    else if (nomeSalvo) {
       this.nomeUsuario = nomeSalvo;
       this.solicitacoesForms.patchValue({
         nomeAluno: nomeSalvo
@@ -50,7 +60,7 @@ export class Painelusuario implements OnInit {
     if (this.solicitacoesForms.invalid) return;
 
     this.service.enviarSolicitacao(this.solicitacoesForms.getRawValue()).subscribe({
-      next: (res) => {
+      next: () => {
         Swal.fire({
           title: 'Sucesso!',
           text: 'Sua solicitação de certificado foi enviada.',
@@ -60,8 +70,13 @@ export class Painelusuario implements OnInit {
         }).then((result) => {
           if (result.isConfirmed) {
             this.solicitacoesForms.reset({ tipoCertificado: 'IMPRESSO' });
-            this.solicitacoesForms.patchValue({ nomeAluno: this.nomeUsuario });
-            this.router.navigate(['/minhas-solicitacoes']);
+
+            if (this.isAdmin) {
+              this.router.navigate(['/admin']);
+            } else {
+              this.router.navigate(['/minhas-solicitacoes']);
+              this.solicitacoesForms.patchValue({ nomeAluno: this.nomeUsuario });
+            }
           }
         });
       },

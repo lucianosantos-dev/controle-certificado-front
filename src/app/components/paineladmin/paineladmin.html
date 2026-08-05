@@ -7,6 +7,7 @@
         <span>Gestão de Certificados</span>
       </div>
     </div>
+    <button class="btn-solicitar" (click)="novaSolicitacao()">Nova Solicitação</button>
     <button class="btn-sair" (click)="logout()">Sair</button>
   </header>
 
@@ -148,6 +149,11 @@
           <div class="info-grupo">
             <span>Tipo de Certificado:</span>
             <strong>{{ solicitacaoSelecionada().tipoCertificado }}</strong>
+          </div>
+
+          <div class="info-grupo">
+            <span>Telefone</span>
+            <strong>{{solicitacaoSelecionada().telefone}}</strong>
           </div>
 
           <div class="info-grupo">

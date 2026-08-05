@@ -401,6 +401,23 @@
     transition: all 0.2s;
 }
 
+.btn-solicitar{
+    color: #d97706;
+    background-color: transparent;
+    border: 1px solid;
+    padding: 0.5rem 1.2rem;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-solicitar:hover{
+    background-color: #d97706;
+    color: #000;
+    box-shadow: 0 4px 6px rgba(15, 23, 42, 0.6);
+}
+
 .btn-sair:hover {
     background-color: #ef4444;
     color: white;
