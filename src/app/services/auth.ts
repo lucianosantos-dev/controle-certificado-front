@@ -22,10 +22,18 @@ export class AuthService {
       tap(response => {
         const token = response.token;
 
-        localStorage.setItem('token', token)
+        localStorage.setItem('token', token);
 
-        const payloadBase64 = token.split('.')[1];
-        const payloadDecodificado = atob(payloadBase64);
+        const payloadBase64Url = token.split('.')[1];
+
+        const base64 = payloadBase64Url.replace(/-/g, '+').replace(/_/g, '/');
+
+        const payloadDecodificado = decodeURIComponent(
+          atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          }).join('')
+        );
+
         const payloadJson = JSON.parse(payloadDecodificado);
 
         localStorage.setItem('perfil', payloadJson.perfil);
