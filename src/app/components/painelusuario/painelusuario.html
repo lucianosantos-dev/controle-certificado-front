@@ -26,19 +26,44 @@
           <span>Nome completo</span>
           <input
             type="text"
-            placeholder="Ex: Luciano Santos de Jesus Reis"
+            placeholder="Ex: Lucas Pereira Santos"
             formControlName="nomeAluno"
           />
         </label>
 
-        <label class="full-width">
+        <label class="full-width campo-destaque">
+          <span class="label-destaque">
+            <i class="bi bi-mortarboard-fill"></i>
+            Curso * (obrigatório)
+          </span>
+          <select
+            formControlName="cursoId"
+            class="form-select select-destaque"
+            id="cursoSelect"
+            name="cursoSelect">
+            <option value="" disabled selected>⚠️ Selecione o curso antes de continuar...</option>
+
+            @for (curso of cursos; track curso.id) {
+              <option [value]="curso.id">
+                {{ curso.nome }}
+              </option>
+            }
+          </select>
+          @if (solicitacoesForms.get('cursoId')?.invalid && solicitacoesForms.get('cursoId')?.touched) {
+            <small class="erro-curso">⚠️ Por favor, selecione um curso</small>
+          }
+          @if (solicitacoesForms.get('cursoId')?.value === '' || solicitacoesForms.get('cursoId')?.value === null) {
+            <small class="dica-curso">💡 Dica: Não esqueça de selecionar seu curso!</small>
+          }
+        </label>
+        <!-- <label class="full-width">
           <span>Curso</span>
           <input
             type="text"
             placeholder="Ex: Administração, Informática..."
             formControlName="curso"
           />
-        </label>
+        </label> -->
 
         <label>
           <span>Data de conclusão</span>
@@ -47,23 +72,26 @@
 
         <label>
           <span>Telefone</span>
-          <input type="tel" placeholder="(11) 99999-9999"
-           maxlength="15" 
-           (input)="somenteNumeros($event, 'telefone')" 
-           formControlName="telefone"
-           mask="(00) 00000-0000"
-            />
+          <input
+            type="tel"
+            placeholder="(11) 99999-9999"
+            maxlength="15"
+            formControlName="telefone"
+            mask="(00) 00000-0000"
+            [dropSpecialCharacters]="false"
+          />
         </label>
 
         <label class="full-width">
           <span>CPF</span>
-          <input type="text" 
-          placeholder="000.000.000-00"
-           maxlength="14"
-            (input)="somenteNumeros($event, 'cpf')" 
+          <input
+            type="text"
+            placeholder="000.000.000-00"
+            maxlength="14"
             formControlName="cpf"
             mask="000.000.000-00"
-             />
+            [dropSpecialCharacters]="false"
+          />
         </label>
 
         <div class="escolha-formato full-width">
@@ -90,9 +118,17 @@
           </div>
         </div>
 
-        <button class="btn-submit full-width" type="submit" [disabled]="solicitacoesForms.invalid">
-          Enviar solicitação
-        </button>
+        <div class="form-actions full-width">
+          @if (isAdmin) {
+            <button class="btn-voltar" type="button" (click)="voltarAdmin()" [disabled]="isSubmitting">Voltar</button>
+          }
+          <button class="btn-submit" type="submit" [disabled]="isSubmitting">
+            @if (isSubmitting) {
+              <span class="spinner"></span>
+            }
+            {{ isSubmitting ? 'Enviando...' : 'Enviar solicitação' }}
+          </button>
+        </div>
       </form>
     </div>
   </main>

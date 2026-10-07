@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
@@ -17,6 +17,8 @@ export class LoginComponent {
   private router = inject(Router);
   private solicitacaoService = inject(Solicitacao);
 
+  isSubmitting: boolean = false;
+
   loginForm: FormGroup = this.fb.group({
     login: ['', Validators.required],
     senha: ['', [Validators.required, Validators.minLength(6)]]
@@ -24,6 +26,9 @@ export class LoginComponent {
 
   onSubmit() {
     if (this.loginForm.invalid) return;
+    if (this.isSubmitting) return;
+
+    this.isSubmitting = true;
 
     this.service.login(this.loginForm.value).subscribe({
       next: (res) => {
@@ -32,6 +37,7 @@ export class LoginComponent {
         if (perfilUsuario === 'ALUNO') {
           this.solicitacaoService.getSolicitacoes().subscribe({
             next: (res) => {
+              this.isSubmitting = false;
               if (res && res.length > 0) {
                 this.router.navigate(['/minhas-solicitacoes']);
               } else {
@@ -39,12 +45,15 @@ export class LoginComponent {
               }
             },
             error: () => {
+              this.isSubmitting = false;
               this.router.navigate(['/painel']);
             }
           });
         } else if (perfilUsuario === 'SECRETARIA' || perfilUsuario === 'PEDAGOGICO') {
+          this.isSubmitting = false;
           this.router.navigate(['/admin']);
         } else {
+          this.isSubmitting = false;
           Swal.fire({
             title: 'Ops!',
             text: 'Erro de permissão. Contate o suporte.',
@@ -54,6 +63,7 @@ export class LoginComponent {
         }
       },
       error: (err) => {
+        this.isSubmitting = false;
         console.error("Erro ao fazer login ", err);
         Swal.fire({
           title: 'Acesso Negado!',
@@ -63,6 +73,11 @@ export class LoginComponent {
         });
       }
     })
+  }
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 
   irParaCadastro() {

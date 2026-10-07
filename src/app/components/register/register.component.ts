@@ -16,8 +16,9 @@ export class RegisterComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  
+
   perfis = Object.values(PerfilUsuario);
+  isSubmitting: boolean = false;
 
   cadastroForm: FormGroup = this.fb.group({
     nome: ['', [Validators.required, Validators.minLength(3)]],
@@ -28,8 +29,12 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.cadastroForm.valid) {
+      if (this.isSubmitting) return;
+      this.isSubmitting = true;
+
       this.authService.cadastrarUsuario(this.cadastroForm.value).subscribe({
-        next: (res) => {
+        next: () => {
+          this.isSubmitting = false;
           Swal.fire({
             title: 'Cadastro Concluído!',
             text: 'Usuário cadastrado com sucesso.',
@@ -41,6 +46,7 @@ export class RegisterComponent {
           });
         },
         error: (err) => {
+          this.isSubmitting = false;
           console.error("Erro ao cadastrar usuario " + err);
           Swal.fire({
             title: 'Ops!',

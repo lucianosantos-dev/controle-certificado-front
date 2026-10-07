@@ -46,13 +46,19 @@
           }
         </div>
 
-        <button type="submit" class="submit-button" [disabled]="loginForm.invalid">Entrar</button>
+        <button type="submit" class="submit-button" [disabled]="loginForm.invalid || isSubmitting">
+          @if (isSubmitting) {
+            <span class="spinner"></span>
+          }
+          {{ isSubmitting ? 'Entrando...' : 'Entrar' }}
+        </button>
 
         <div class="register-prompt" style="margin-top: 1.5rem; text-align: center">
           <span style="font-size: 0.9rem; color: #555">Ainda não tem conta?</span>
           <button
             type="button"
             (click)="irParaCadastro()"
+            [disabled]="isSubmitting"
             style="
               background: transparent;
               border: none;
