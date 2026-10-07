@@ -1,3 +1,4 @@
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 @import "tailwindcss";
 
 html,
@@ -14,4 +15,12 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+.swal2-container {
+  z-index: 99999 !important;
+}
+
+.swal-high-zindex {
+  z-index: 99999 !important;
 }

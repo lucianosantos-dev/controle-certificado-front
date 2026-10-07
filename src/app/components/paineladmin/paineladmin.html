@@ -7,8 +7,10 @@
         <span>Gestão de Certificados</span>
       </div>
     </div>
-    <button class="btn-solicitar" (click)="novaSolicitacao()">Nova Solicitação</button>
-    <button class="btn-sair" (click)="logout()">Sair</button>
+    <div class="header-actions">
+      <button class="btn-solicitar" (click)="novaSolicitacao()">+ Nova Solicitação</button>
+      <button class="btn-sair" (click)="logout()">Sair</button>
+    </div>
   </header>
 
   <main class="content-container">
@@ -19,28 +21,40 @@
     <div class="filtro-container">
       <div class="filtro-grupo">
         <label for="buscaStatus">Status</label>
-
         <select
           id="buscaStatus"
           name="buscaStatus"
           [(ngModel)]="filtroStatus"
-          (change)="pesquisar()"
-          style="
-            padding: 8px 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 6px;
-            height: 42px;
-            min-width: 160px;
-            background-color: white;
-            color: #334155;
-            font-size: 0.95rem;
-            cursor: pointer;
-          "
+          (ngModelChange)="pesquisar()"
+          class="select-filtro"
         >
           <option value="TODOS">Todos</option>
+          <option value="AGUARDANDO_RETIRADA">Aguardando Retirada</option>
           <option value="PENDENTE">Pendente</option>
           <option value="CONCLUIDO">Concluído</option>
           <option value="ENTREGUE">Entregue</option>
+        </select>
+      </div>
+
+      <div class="filtro-grupo">
+        <label for="buscaCurso">
+          <i class="bi bi-mortarboard-fill"></i>
+          Curso
+        </label>
+        <select
+          id="buscaCurso"
+          name="buscaCurso"
+          [(ngModel)]="filtroCurso"
+          (ngModelChange)="pesquisar()"
+          class="select-filtro"
+        >
+          <option value="">Todos os cursos</option>
+
+          @for (curso of cursos; track curso.id) {
+            <option [value]="curso.id">
+              {{ curso.nome }}
+            </option>
+          }
         </select>
       </div>
 
@@ -61,8 +75,13 @@
       </div>
 
       <div class="filtro-botoes">
-        <button class="btn-buscar" (click)="pesquisar()">Buscar</button>
-        <button class="btn-limpar" (click)="limparFiltro()">Limpar</button>
+        <button class="btn-buscar" (click)="pesquisar()" [disabled]="isLoading()">
+          @if (isLoading()) {
+            <span class="spinner"></span>
+          }
+          {{ isLoading() ? 'Carregando...' : 'Buscar' }}
+        </button>
+        <button class="btn-limpar" (click)="limparFiltro()" [disabled]="isLoading()">Limpar</button>
       </div>
     </div>
 
@@ -76,37 +95,51 @@
             <th>Data Limite</th>
             <th>Telefone</th>
             <th>Status</th>
-            <th>Tipo Certificado</th>
+            <th>Tipo</th>
+            <th>Financeiro</th>
           </tr>
         </thead>
         <tbody>
           @for (solicitacao of solicitacoes(); track $index) {
             <tr class="linha-clicavel" (click)="abrirDetalhes(solicitacao)">
               <td>
-                <strong>{{ solicitacao.nomeAluno }}</strong>
+                <span class="aluno-nome">{{ solicitacao.nomeAluno }}</span>
               </td>
-              <td>{{ solicitacao.curso }}</td>
-              <td>{{ solicitacao.dataSolicitacao | date: 'dd/MM/yyyy' }}</td>
-              <td style="color: #d97706; font-weight: bold">
+              <td class="col-curso">{{ solicitacao.curso?.nome || solicitacao.curso }}</td>
+              <td class="col-data">{{ solicitacao.dataSolicitacao | date: 'dd/MM/yyyy' }}</td>
+              <td class="col-data data-limite">
                 {{ solicitacao.dataLimiteEntrega | date: 'dd/MM/yyyy' }}
               </td>
+              <td class="col-tel">{{ solicitacao.telefone }}</td>
               <td>
-                {{ solicitacao.telefone }}
+                <span class="status-badge" [ngClass]="solicitacao.statusSolicitacao?.toLowerCase()">
+                  {{ solicitacao.statusSolicitacao }}
+                </span>
               </td>
               <td>
-                <span class="status-badge">{{ solicitacao.statusSolicitacao }}</span>
+                <span class="tipo-badge">{{ solicitacao.tipoCertificado }}</span>
               </td>
               <td>
-                <p>
-                  <strong>{{ solicitacao.tipoCertificado }}</strong>
-                </p>
+                <button
+                  type="button"
+                  class="btn-financeiro"
+                  [disabled]="solicitacao.financeiroOk"
+                  [ngClass]="solicitacao.financeiroOk ? 'pago' : 'pendente'"
+                  (click)="alterarStatusFinanceiro(solicitacao); $event.stopPropagation()"
+                  [title]="
+                    solicitacao.financeiroOk
+                      ? 'Clique para alterar para Pendente'
+                      : 'Clique para aprovar'
+                  "
+                >
+                  <span class="status-dot"></span>
+                  {{ solicitacao.financeiroOk ? 'Pago' : 'Pendente' }}
+                </button>
               </td>
             </tr>
           } @empty {
             <tr>
-              <td colspan="6" style="text-align: center; padding: 20px">
-                Nenhuma solicitação no momento.
-              </td>
+              <td colspan="8" class="tabela-vazia">Nenhuma solicitação encontrada no momento.</td>
             </tr>
           }
         </tbody>
@@ -143,7 +176,9 @@
           </div>
           <div class="info-grupo">
             <span>Curso:</span>
-            <strong>{{ solicitacaoSelecionada().curso }}</strong>
+            <strong>{{
+              solicitacaoSelecionada().curso?.nome || solicitacaoSelecionada().curso
+            }}</strong>
           </div>
 
           <div class="info-grupo">
@@ -152,8 +187,22 @@
           </div>
 
           <div class="info-grupo">
-            <span>Telefone</span>
-            <strong>{{solicitacaoSelecionada().telefone}}</strong>
+            <span>Financeiro:</span>
+            <button
+              type="button"
+              class="btn-financeiro"
+              [disabled]="solicitacaoSelecionada().financeiroOk"
+              [ngClass]="solicitacaoSelecionada().financeiroOk ? 'pago' : 'pendente'"
+              (click)="alterarStatusFinanceiro(solicitacaoSelecionada())"
+            >
+              <span class="status-dot"></span>
+              {{ solicitacaoSelecionada().financeiroOk ? 'Pago' : 'Pendente' }}
+            </button>
+          </div>
+
+          <div class="info-grupo">
+            <span>Telefone:</span>
+            <strong>{{ solicitacaoSelecionada().telefone }}</strong>
           </div>
 
           <div class="info-grupo">
@@ -167,25 +216,21 @@
             <label for="statusSelect">Alterar Status do Certificado:</label>
             <select id="statusSelect" [(ngModel)]="statusSelecionado" class="select-status">
               <option value="PENDENTE">Pendente</option>
+              <option value="AGUARDANDO_RETIRADA">Aguardando Retirada</option>
               <option value="CONCLUIDO">Concluído</option>
               <option value="ENTREGUE">Entregue</option>
             </select>
           </div>
-
-          <!-- <div class="filtro-grupo">
-            <label for="buscaStatus">Filtrar por Status</label>
-            <select id="buscaStatus" [(ngModel)]="filtroStatus" class="select-filtro">
-              <option value="">Todos</option>
-              <option value="PENDENTE">Pendente</option>
-              <option value="CONCLUIDO">Concluído</option>
-              <option value="ENTREGUE">Entregue</option>
-            </select>
-          </div> -->
         </div>
 
         <div class="modal-footer">
-          <button class="btn-cancelar" (click)="fecharModal()">Cancelar</button>
-          <button class="btn-salvar" (click)="salvarNovoStatus()">Salvar Alteração</button>
+          <button class="btn-cancelar" (click)="fecharModal()" [disabled]="isSavingStatus()">Cancelar</button>
+          <button class="btn-salvar" (click)="salvarNovoStatus()" [disabled]="isSavingStatus()">
+            @if (isSavingStatus()) {
+              <span class="spinner"></span>
+            }
+            {{ isSavingStatus() ? 'Salvando...' : 'Salvar Alteração' }}
+          </button>
         </div>
       </div>
     </div>

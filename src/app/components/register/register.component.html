@@ -108,8 +108,11 @@
           }
         </div>
 
-        <button type="submit" class="submit-button" [disabled]="cadastroForm.invalid">
-          Criar conta
+        <button type="submit" class="submit-button" [disabled]="cadastroForm.invalid || isSubmitting">
+          @if (isSubmitting) {
+            <span class="spinner"></span>
+          }
+          {{ isSubmitting ? 'Criando conta...' : 'Criar conta' }}
         </button>
       </form>
     </div>

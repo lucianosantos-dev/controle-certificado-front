@@ -126,9 +126,96 @@
     color: #334155;
 }
 
+/* Destaque para o campo de Curso */
+.campo-destaque {
+    background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    border: 2px solid #fbbf24;
+    border-radius: 16px;
+    padding: 1.25rem;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.15);
+    animation: pulse-border 2s ease-in-out infinite;
+}
+
+@keyframes pulse-border {
+    0%, 100% {
+        box-shadow: 0 4px 12px rgba(251, 191, 36, 0.15);
+    }
+    50% {
+        box-shadow: 0 4px 20px rgba(251, 191, 36, 0.35);
+    }
+}
+
+.label-destaque {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #d97706 !important;
+    margin-bottom: 0.5rem;
+}
+
+.label-destaque i {
+    font-size: 1.2rem;
+}
+
+.select-destaque {
+    background: #ffffff !important;
+    border: 2px solid #d97706 !important;
+    font-weight: 600;
+    color: #0f172a !important;
+    cursor: pointer !important;
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    appearance: menulist !important;
+    pointer-events: auto !important;
+    user-select: auto !important;
+}
+
+.select-destaque:focus {
+    border-color: #b45309 !important;
+    box-shadow: 0 0 0 4px rgba(217, 119, 6, 0.25) !important;
+}
+
+.select-destaque:hover {
+    border-color: #b45309 !important;
+}
+
+.campo-destaque * {
+    pointer-events: auto !important;
+}
+
+.erro-curso {
+    display: block;
+    color: #dc2626;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+}
+
+.dica-curso {
+    display: block;
+    color: #d97706;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    animation: pulse-text 2s ease-in-out infinite;
+}
+
+@keyframes pulse-text {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
 .aluno-form input[type="text"],
 .aluno-form input[type="date"],
-.aluno-form input[type="tel"] {
+.aluno-form input[type="tel"],
+.aluno-form select {
     width: 100%;
     padding: 14px 16px;
     border-radius: 12px;
@@ -139,11 +226,35 @@
     transition: all 0.2s;
 }
 
-.aluno-form input:focus {
+.aluno-form select {
+    cursor: pointer;
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    appearance: menulist;
+}
+
+.aluno-form input:focus,
+.aluno-form select:focus {
     outline: none;
     border-color: #d97706;
     box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
     background: #ffffff;
+}
+
+.aluno-form select.ng-touched.ng-invalid {
+    border-color: #dc2626;
+    background: #fef2f2;
+}
+
+.aluno-form select.ng-touched.ng-invalid:focus {
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.aluno-form .select-destaque {
+    -webkit-appearance: menulist !important;
+    -moz-appearance: menulist !important;
+    appearance: menulist !important;
 }
 
 .escolha-formato {
@@ -210,8 +321,32 @@
     background: #fef3c7;
 }
 
-.btn-submit {
+.form-actions {
+    display: flex;
+    gap: 16px;
     margin-top: 16px;
+}
+
+.btn-voltar {
+    padding: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #475569;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+}
+
+.btn-voltar:hover {
+    background: #f1f5f9;
+    border-color: #94a3b8;
+}
+
+.btn-submit {
+    flex: 2;
     padding: 16px;
     border: none;
     border-radius: 12px;
@@ -229,6 +364,30 @@
     box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
 }
 
+.btn-submit:disabled,
+.btn-voltar:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Spinner de Loading */
+.spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
 @media (max-width: 640px) {
     .aluno-form {
         grid-template-columns: 1fr;
@@ -236,5 +395,9 @@
 
     .format-cards {
         grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column-reverse;
     }
 }

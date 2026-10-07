@@ -5,6 +5,8 @@ import { Solicitacao } from '../../services/solicitacao';
 import { TipoCertificado } from '../../model/TipoCertificado';
 import Swal from 'sweetalert2';
 import { NgxMaskDirective } from 'ngx-mask';
+import { CursoService } from '../../services/curso';
+import { Curso } from '../../model/Curso';
 
 @Component({
   selector: 'app-painelusuario',
@@ -16,19 +18,24 @@ export class Painelusuario implements OnInit {
   private router = inject(Router);
   private fb = inject(FormBuilder);
   private service = inject(Solicitacao);
+  private cursoService = inject(CursoService);
+
+  public cursos: Curso[] = [];
 
   isAdmin: boolean = false;
   nomeUsuario: string = '';
   tipoCertificado = Object.values(TipoCertificado);
+  isSubmitting: boolean = false;
 
   solicitacoesForms: FormGroup = this.fb.group({
     nomeAluno: [{ value: '', disabled: true }, Validators.required],
-    curso: ['', Validators.required],
+    cursoId: ['', Validators.required],
     dataConclusao: ['', Validators.required],
-    telefone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15), Validators.pattern('^[0-9]*$')]],
-    cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(14), Validators.pattern('^[0-9]*$')]],
+    telefone: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(15)]],
+    cpf: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
     tipoCertificado: ['IMPRESSO', Validators.required]
   });
+
 
   somenteNumeros(event: Event, nomeControle: string) {
     const input = event.target as HTMLInputElement;
@@ -38,10 +45,9 @@ export class Painelusuario implements OnInit {
 
   ngOnInit(): void {
     const nomeSalvo = localStorage.getItem('meuUsuario');
+    this.isAdmin = localStorage.getItem('perfil') === 'PEDAGOGICO' || localStorage.getItem('perfil') === 'SECRETARIA';
 
-    this.isAdmin = localStorage.getItem('perfil') === 'PEDAGOGICO';
-
-    if(nomeSalvo){
+    if (nomeSalvo) {
       this.nomeUsuario = nomeSalvo;
     }
 
@@ -54,13 +60,41 @@ export class Painelusuario implements OnInit {
         nomeAluno: nomeSalvo
       });
     }
+
+    this.listarCursos();
   }
 
   onSubmit() {
-    if (this.solicitacoesForms.invalid) return;
+    if (this.solicitacoesForms.invalid) {
+      this.solicitacoesForms.markAllAsTouched();
+
+      const cursoControl = this.solicitacoesForms.get('cursoId');
+      if (cursoControl?.invalid) {
+        Swal.fire({
+          title: '⚠️ Curso não selecionado!',
+          text: 'Por favor, selecione o curso antes de enviar a solicitação.',
+          icon: 'warning',
+          confirmButtonColor: '#d97706',
+          confirmButtonText: 'OK, vou selecionar'
+        });
+        return;
+      }
+
+      Swal.fire({
+        title: 'Campos incompletos!',
+        text: 'Por favor, preencha todos os campos obrigatórios.',
+        icon: 'warning',
+        confirmButtonColor: '#d97706'
+      });
+      return;
+    }
+
+    if (this.isSubmitting) return;
+    this.isSubmitting = true;
 
     this.service.enviarSolicitacao(this.solicitacoesForms.getRawValue()).subscribe({
       next: () => {
+        this.isSubmitting = false;
         Swal.fire({
           title: 'Sucesso!',
           text: 'Sua solicitação de certificado foi enviada.',
@@ -81,11 +115,25 @@ export class Painelusuario implements OnInit {
         });
       },
       error: (err) => {
+        this.isSubmitting = false;
         console.error("Erro ao enviar solicitacao", err);
+
+        let mensagemErro = 'Verifique os dados preenchidos e tente novamente.';
+
+        if (err.error && err.error.errors && err.error.errors.length > 0) {
+          mensagemErro = err.error.errors[0].defaultMessage;
+        }
+        else if (err.error && typeof err.error === 'string') {
+          mensagemErro = err.error;
+        }
+        else if (err.error && err.error.message) {
+          mensagemErro = err.error.message;
+        }
+
         Swal.fire({
-          title: 'Erro!',
-          text: 'Ocorreu um erro ao enviar sua solicitação. Tente novamente.',
-          icon: 'error',
+          title: 'Atenção!',
+          text: mensagemErro,
+          icon: 'warning',
           confirmButtonColor: '#d33'
         });
       }
@@ -95,5 +143,20 @@ export class Painelusuario implements OnInit {
   logout() {
     localStorage.clear();
     this.router.navigate(['/login']);
+  }
+
+  voltarAdmin() {
+    this.router.navigate(['/admin']);
+  }
+
+  listarCursos() {
+    this.cursoService.getCursos().subscribe({
+      next: (res) => {
+        this.cursos = res;
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
   }
 }
